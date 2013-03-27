@@ -171,8 +171,49 @@ class IssueController extends Controller
 		}
 	}
 
+	/**
+	* @var private property containing the associated Project model instance.
+	*/
+	private $_project = null;
+
+	/**
+	* protected method to load the associated Project model class
+	* @project_id the primary identifier of the associated Project
+	* @return object the Project data model based on the primary key
+	*/
+	protected function loadProject($project_id)
+	{
+		//if the project property is null, create it based on input id
+		if($this->_project === null)
+		{
+			$this->_project = Project::model()->findbyPk($project_id);
+			if($this->_project === null)
+			{
+				throw new CHttpException(404, 'The requested project does not exist.');
+			}
+		}
+		return $this->_project;
+	}
+
+	/**
+	* In-class defined filter method, configured for use in the above filters() method
+	* It is called before the actionCreate() action method is run in order to ensude a
+	* proper project context
+	*/
 	public function filterProjectContext($filterChain)
 	{
+		//set the project identifier based on either the GET or POST input
+		//request variables, since we allow both types for our actions
+		$project_id = null;
+		if(isset($_GET['pid']))
+			$project_id = $_GET['pid'];
+		else
+			if(isset($_POST['pid']))
+				$project_id = $_POST['pid'];
+
+		$this->loadProject($project_id);
+
+		//complete the running of other filters and execute the request action
 		$filterChain->run();
 	}
 }
