@@ -15,7 +15,7 @@ class IssueController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			'postOnly + create', // we only allow deletion via POST request
 		);
 	}
 
@@ -169,5 +169,10 @@ class IssueController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	public function filterProjectContext($filterChain)
+	{
+		$filterChain->run();
 	}
 }
