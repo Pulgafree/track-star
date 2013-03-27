@@ -27,6 +27,10 @@ class Issue extends CActiveRecord
 	const TYPE_BUG=0;
 	const TYPE_FEATURE=1;
 	const TYPE_TASK=2;
+
+	const STATUS_NOT_YET_STARTED=0;
+	const STATUS_STARTED=1;
+	const STATUS_FINISHED=2;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -133,6 +137,15 @@ class Issue extends CActiveRecord
 			self::TYPE_BUG => 'Bug',
 			self::TYPE_FEATURE => 'Feature',
 			self::TYPE_TASK => 'Task',
+			);
+	}
+
+	public function getStatusOptions()
+	{
+		return array(
+			self::STATUS_NOT_YET_STARTED => 'Not yet started',
+			self::STATUS_STARTED => 'Started',
+			self::STATUS_FINISHED => 'Finished',
 			);
 	}
 

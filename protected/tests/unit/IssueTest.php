@@ -10,4 +10,13 @@ class IssueTest extends CTestCase
 		$this->assertTrue(in_array('Feature', $options));
 		$this->assertTrue(in_array('Task', $options));
 	}
+	public function testGetStatus()
+	{
+		$options = Issue::model()->statusOptions;
+		$this->assertTrue(is_array($options));
+		$this->assertTrue(3 == count($options));
+		$this->assertTrue(in_array('Not yet started', $options));
+		$this->assertTrue(in_array('Started', $options));
+		$this->assertTrue(in_array('Finished', $options));
+	}
 }
